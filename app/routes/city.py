@@ -1,4 +1,4 @@
-from extensions import db
+from ..extensions import db
 from ..models.city import City
 from flask import request, jsonify
 from flask import Blueprint

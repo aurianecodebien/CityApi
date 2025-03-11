@@ -12,8 +12,10 @@ RUN pip install --no-cache-dir poetry
 COPY pyproject.toml poetry.lock ./
 RUN poetry install --no-root
 
-COPY ./app .
+COPY ./run.py .
+
+COPY ./app ./app
 
 
 # Spécifier la commande pour démarrer l'application
-CMD ["poetry", "run", "python", "app.py"]
+CMD ["poetry", "run", "python", "run.py"]
