@@ -3,22 +3,16 @@ version: '3.1'
 services:
   db:
     image: postgres:latest
-    container_name: tp5_postgres
+    container_name: cityapi
     environment:
-      POSTGRES_USER: tp5_user
-      POSTGRES_PASSWORD: tp5_tamalet
-      POSTGRES_DB: tp5_db
+      POSTGRES_USER: cityapi
+      POSTGRES_PASSWORD: cityapi
+      POSTGRES_DB: cityapi
     ports:
       - "5432:5432"
     volumes:
       - ./init.sql:/docker-entrypoint-initdb.d/init.sql
       - postgres_data:/var/lib/postgresql/data
-    networks:
-      - postgres_network
-
-networks:
-  postgres_network:
-    driver: bridge
 
 volumes:
   postgres_data:

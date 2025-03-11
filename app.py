@@ -1,20 +1,30 @@
-from flask import Flask, render_template, request, redirect, url_for
-from flask_sqlalchemy import SQLAlchemy
-from sqlalchemy import text
+import os
+from flask import Flask
+from extensions import db
+from routes.city import city_bp
+from routes.health import health_bp
 
-# Initialiser l'application Flask
-app = Flask(__name__, static_url_path='/static')
-app.config['SQLALCHEMY_DATABASE_URI'] = 'postgresql://tp5_user:tp5_tamalet@localhost/tp5_db'
+# ENV
+CITY_API_ADDR = os.getenv('CITY_API_ADDR', '127.0.0.1')
+CITY_API_PORT = int(os.getenv('CITY_API_PORT', 2022))
+CITY_API_DB_URL = os.getenv('CITY_API_DB_URL')
+CITY_API_DB_USER = os.getenv('CITY_API_DB_USER')
+CITY_API_DB_PWD = os.getenv('CITY_API_DB_PWD')
+if not all([CITY_API_DB_URL, CITY_API_DB_USER, CITY_API_DB_PWD]):
+    raise ValueError("CITY_API_DB_URL, CITY_API_DB_USER et CITY_API_DB_PWD must be defined")
+
+
+# App config
+app = Flask(__name__)
+app.config['SERVER_NAME'] = f'{CITY_API_ADDR}:{CITY_API_PORT}'
+app.config['SQLALCHEMY_DATABASE_URI'] = f'postgresql://{CITY_API_DB_USER}:{CITY_API_DB_PWD}@{CITY_API_DB_URL}'
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
-db = SQLAlchemy(app)
 
-# Initialiser la connexion à la base de données
-db.init_app(app)
-
-# Page d'accueil
-@app.route('/')
-def home():
-    return render_template('index.html')
-
+# Entrypoint
 if __name__ == '__main__':
-    app.run(debug=True)
+    db.create_all()
+    app.run(host=CITY_API_ADDR, port=CITY_API_PORT, debug=True)
+
+# Routes
+app.register_blueprint(city_bp)
+app.register_blueprint(health_bp)
