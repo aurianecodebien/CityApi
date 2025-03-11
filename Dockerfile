@@ -1,17 +1,19 @@
-# Use an official Python runtime as a parent image
-FROM python:3.11
+# Utiliser une image Python légère avec Poetry préinstallé
+FROM python:3.11-slim
 
-# Set the working directory in the container
 WORKDIR /app
-
-# Copy the application files
-COPY . .
-
-# Install dependencies
-RUN pip install --no-cache-dir flask flask-sqlalchemy psycopg2-binary
-
-# Expose the application port
 EXPOSE 2022
 
-# Command to run the application
-CMD ["python", "app.py"]
+RUN apt-get update && apt-get install -y --no-install-recommends \
+    libpq-dev gcc && \
+    rm -rf /var/lib/apt/lists/*
+
+RUN pip install --no-cache-dir poetry
+COPY pyproject.toml poetry.lock ./
+RUN poetry install --no-root
+
+COPY ./app .
+
+
+# Spécifier la commande pour démarrer l'application
+CMD ["poetry", "run", "python", "app.py"]

@@ -1,4 +1,4 @@
-from extensions import db
+from app.extensions import db
 from flask import jsonify, Blueprint
 
 health_bp = Blueprint('health', __name__)
