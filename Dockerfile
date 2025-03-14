@@ -3,6 +3,7 @@ FROM python:3.11-slim
 
 WORKDIR /app
 EXPOSE 2022
+HEALTHCHECK --start-period=5s --retries=3 CMD [ "curl" "-f" "localhost:2022/_health" ]
 
 RUN apt-get update && apt-get install -y --no-install-recommends \
     libpq-dev gcc && \
