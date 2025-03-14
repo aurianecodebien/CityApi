@@ -46,7 +46,7 @@ def add_cities():
     data = request.get_json()
     if not data:
         return jsonify({"error": "Invalid input"}), 400
-    msg = ""
+    msg = []
     for city in data:
         try:
             new_city = City(
