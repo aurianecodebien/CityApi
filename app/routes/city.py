@@ -44,7 +44,7 @@ def add_city():
 @city_bp.route('/cities', methods=['POST'])
 def add_cities():
     data = request.get_json()
-    if not data:
+    if not data or type(data) is not list:
         return jsonify({"error": "Invalid input"}), 400
     msg = []
     for city in data:
@@ -63,4 +63,4 @@ def add_cities():
         except Exception as e:
             return jsonify({"error": str(e)}), 500
         db.session.commit()
-        return jsonify({"message": jsonify(msg)}), 200
+        return jsonify({"message": msg}), 200
