@@ -27,6 +27,7 @@ def add_city():
     
     try:
         new_city = City(
+            id=data['id'],
             department_code=data['department_code'],
             insee_code=data.get('insee_code'),
             zip_code=data.get('zip_code'),
@@ -39,3 +40,27 @@ def add_city():
         return jsonify({"message": "City added successfully"}), 201
     except Exception as e:
         return jsonify({"error": str(e)}), 500
+    
+@city_bp.route('/cities', methods=['POST'])
+def add_cities():
+    data = request.get_json()
+    if not data:
+        return jsonify({"error": "Invalid input"}), 400
+    msg = ""
+    for city in data:
+        try:
+            new_city = City(
+                id=data['id'],
+                department_code=data['department_code'],
+                insee_code=data.get('insee_code'),
+                zip_code=data.get('zip_code'),
+                name=data['name'],
+                lat=data['lat'],
+                lon=data['lon']
+            )
+            db.session.add(new_city)
+            db.session.commit()
+            msg.append(f"{city['name']} added successfully")
+        except Exception as e:
+            return jsonify({"error": str(e)}), 500
+        return jsonify({"message": msg}), 200
