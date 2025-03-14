@@ -59,8 +59,8 @@ def add_cities():
                 lon=city['lon']
             )
             db.session.add(new_city)
-            db.session.commit()
             msg.append(f"{city['name']} added successfully")
         except Exception as e:
             return jsonify({"error": str(e)}), 500
-        return jsonify({"message": msg}), 200
+        db.session.commit()
+        return jsonify({"message": jsonify(msg)}), 200
