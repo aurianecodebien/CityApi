@@ -31,4 +31,8 @@ jobs:
         uses: super-linter/super-linter@v7.3.0
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}  # Required for Super-Linter
-          VALIDATE_PYTHON: true  # Enable Python linting
+          VALIDATE_ALL_CODEBASE: false
+          VALIDATE_PYTHON: true
+          VALIDATE_YAML: true
+          VALIDATE_DOCKERFILE: false # TODO
+          VALIDATE_GITHUB_ACTIONS: false # TODO
