@@ -27,6 +27,9 @@ jobs:
       - name: Install dependencies
         run: poetry install --no-root
 
+      - name: Install dependencies
+        run: poetry run pytest tests/
+
       - name: Run Super-Linter
         uses: super-linter/super-linter@v7.3.0
         env:
