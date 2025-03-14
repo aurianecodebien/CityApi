@@ -50,13 +50,13 @@ def add_cities():
     for city in data:
         try:
             new_city = City(
-                id=data['id'],
-                department_code=data['department_code'],
-                insee_code=data.get('insee_code'),
-                zip_code=data.get('zip_code'),
-                name=data['name'],
-                lat=data['lat'],
-                lon=data['lon']
+                id=city['id'],
+                department_code=city['department_code'],
+                insee_code=city.get('insee_code'),
+                zip_code=city.get('zip_code'),
+                name=city['name'],
+                lat=city['lat'],
+                lon=city['lon']
             )
             db.session.add(new_city)
             db.session.commit()
