@@ -34,5 +34,3 @@ jobs:
           VALIDATE_ALL_CODEBASE: false
           VALIDATE_PYTHON: true
           VALIDATE_YAML: true
-          VALIDATE_DOCKERFILE: false # TODO
-          VALIDATE_GITHUB_ACTIONS: false # TODO
