@@ -2,7 +2,7 @@ version: '3.8'
 
 services:
   db:
-    image: postgres:15
+    image: postgres
     environment:
       POSTGRES_DB: city_api
       POSTGRES_USER: city_api
@@ -10,10 +10,13 @@ services:
     ports:
       - "5432:5432"
     volumes:
+      - ./init.sql:/docker-entrypoint-initdb.d/init.sql
       - city_api_data:/var/lib/postgresql/data
 
   app:
-    image: city-api:latest
+    build:
+      context: .
+      dockerfile: Dockerfile
     depends_on:
       - db
     environment:
