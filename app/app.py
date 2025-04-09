@@ -1,5 +1,6 @@
 import os
 from flask import Flask
+from prometheus_flask_exporter import PrometheusMetrics
 
 def create_app(testing=False):
     from .extensions import db
@@ -7,6 +8,8 @@ def create_app(testing=False):
     from .routes.health import health_bp
 
     app = Flask(__name__)
+    metrics = PrometheusMetrics(app)
+    metrics.info('app_info', 'Application info', version='1.1.0')
 
     if testing:
         app.config["SQLALCHEMY_DATABASE_URI"] = "sqlite:///:memory:"
