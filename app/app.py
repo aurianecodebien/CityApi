@@ -9,7 +9,6 @@ def create_app(testing=False):
 
     app = Flask(__name__)
     metrics = PrometheusMetrics(app)
-    metrics.info('app_info', 'Application info', version='1.1.0')
 
     if testing:
         app.config["SQLALCHEMY_DATABASE_URI"] = "sqlite:///:memory:"
