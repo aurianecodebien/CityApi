@@ -39,3 +39,4 @@ jobs:
           VALIDATE_ALL_CODEBASE: false
           VALIDATE_PYTHON: true
           VALIDATE_YAML: true
+          FILTER_REGEX_EXCLUDE: "helm/templates/*" # Do not lint jinja2 templates from helm
