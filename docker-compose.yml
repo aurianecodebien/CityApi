@@ -27,6 +27,16 @@ services:
       CITY_API_DB_PWD: "city_api"
     ports:
       - "2022:2022"
+  
+  prometheus:
+    image: prom/prometheus
+    volumes:
+      - ./prometheus.yml:/etc/prometheus/prometheus.yml
+      #todo : data storage
+    ports:
+      - "9090:9090"
 
 volumes:
   city_api_data:
+
+
