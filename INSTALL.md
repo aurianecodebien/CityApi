@@ -1,4 +1,4 @@
-# 🚀 Guide d'installation de CityAPI
+# Guide d'installation de CityAPI
 
 Ce guide décrit comment lancer l'application **CityAPI** avec :
 
@@ -7,7 +7,7 @@ Ce guide décrit comment lancer l'application **CityAPI** avec :
 
 ---
 
-## 📦 Installation avec Docker Compose
+## Installation avec Docker Compose
 
 ### 1. Prérequis
 
@@ -38,7 +38,7 @@ curl http://localhost:2022/_health    # ➜ 204 si OK
 curl http://localhost:2022/city       # ➜ GET toutes les villes
 ```
 
-## ☸️ Déploiement avec Helm (Kubernetes)
+## Déploiement avec Helm (Kubernetes)
 
 ### 1. Prérequis
 
@@ -54,7 +54,7 @@ k3s server &
 export KUBECONFIG=/etc/rancher/k3s/k3s.yaml
 ```
 
-## 📦 Installation du chart Helm `city-api`
+## Installation du chart Helm `city-api`
 
 Pour déployer l'application avec Helm sur un cluster :
 
@@ -72,7 +72,7 @@ Pour mettre à jour ensuite :
 helm upgrade cityapi ./helm -f values.yaml
 ```
 
-## 📊 Prometheus et Dashboard Grafana
+## Prometheus et Dashboard Grafana
 
 Nous avons configuré Grafana dans le `docker-compose.yml` afin de permettre la visualisation des métriques de l'application exposées via Prometheus.
 
@@ -84,7 +84,7 @@ Nous avons configuré Grafana dans le `docker-compose.yml` afin de permettre la 
 
 
 
-## 🔁 CI/CD
+## CI/CD
 
 La CI/CD a été mise en place via GitHub Actions dans le dossier `.github/workflows`.
 
@@ -99,7 +99,7 @@ La CI/CD a été mise en place via GitHub Actions dans le dossier `.github/workf
 - **Release** : un job spécifique est déclenché sur les tags versionnés.
 
 
-## 🧠 Explication appli Flask
+## Explication appli Flask
 
 L'application a été développée avec **Flask** et **SQLAlchemy**. Elle expose une API REST qui permet de :
 

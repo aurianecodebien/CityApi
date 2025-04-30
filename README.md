@@ -4,7 +4,7 @@
 - Ruben ROUVIÈRE
 
 
-## 🌐 Dépôt GitHub
+## Dépôt GitHub
 Lien vers le dépôt GitHub : [https://github.com/aurianecodebien/CityApi/](https://github.com/aurianecodebien/CityApi/)
 
 ---
@@ -13,7 +13,7 @@ Lien vers le dépôt GitHub : [https://github.com/aurianecodebien/CityApi/](http
 
 ---
 
-## ⛏ Prérequis installés
+## Prérequis installés
 - [x] Docker
 - [x] Docker Compose
 - [x] Python 3.11
@@ -21,13 +21,13 @@ Lien vers le dépôt GitHub : [https://github.com/aurianecodebien/CityApi/](http
 
 ---
 
-## 🚧 Infrastructure avec Docker Compose
+## Infrastructure avec Docker Compose
 Deux services sont définis :
 - **db** : s'appuie sur l'image `postgres:latest`
 - **app** : notre API Python
 
 
-## 🌐 API Web en Python
+## API Web en Python
 
 **Framework** : **Flask + SQLAlchemy**  
 **Gestion des variables** via `python-dotenv`
@@ -41,7 +41,7 @@ Deux services sont définis :
 | `GET`     | `/_health`   | Retourne 204 si la DB répond        |
 | `GET`     | `/metrics`   | Expose les métriques Prometheus     |
 
-## ⚖️ Tests automatisés (`pytest`)
+## Tests automatisés (`pytest`)
 
 ### 1. `test_insert_bd.py`
 - Vérifie l'ajout d'une ville en base
@@ -57,27 +57,27 @@ pytest
 ```
 
 
-## 📅 GitHub Actions CI/CD
+## GitHub Actions CI/CD
 
-### ✅ Lint (Super-Linter)
+### Lint (Super-Linter)
 - S'exécute à chaque `push`
 
-### ✅ Tests (Pytest)
+### Tests (Pytest)
 - Lance automatiquement `pytest`
 
-### ✅ Build Docker
+### Build Docker
 - Build de l'image `city-api`
 
-### ✅ Scan de sécurité (CVE)
+### Scan de sécurité (CVE)
 - Ajout d'un scan trivy sur chaque image buildée
 
-### ✅ Versioning
+### Versioning
 - Sur `tag` au format `vX.X.X`, push d'une image taggée `city-api:X.X.X`
 
-### ✅ Push sur DockerHub
+### Push sur DockerHub
 - Push de l'image `city-api:latest` sur DockerHub
 
-## 🌌 Monitoring Prometheus + Grafana
+## Monitoring Prometheus + Grafana
 
 Ajout dans `docker-compose.yml` :
 
@@ -86,19 +86,19 @@ Ajout dans `docker-compose.yml` :
 
 
 
-## ✨ Déploiement Kubernetes
+## Déploiement Kubernetes
 
 1. Installation de K3s localement
 2. Déploiement via Helm Chart
 3. Exposition des routes avec un Ingress
 4. Configuration des `values.yaml`
 
-## 📊 Exposition de métriques
+## Exposition de métriques
 
 - `/metrics` exposé via `prometheus_flask_exporter`
 
 
-## 🐞 Blocages rencontrés et résolutions
+## Blocages rencontrés et résolutions
 
 ### 1. Super-Linter et les templates Helm (Jinja2)
 
@@ -108,7 +108,7 @@ Le linter GitHub Actions (`super-linter`) échouait sur les fichiers Helm car ce
 **Solution** :  
 Nous avons exclu les fichiers Helm du linting automatique en adaptant la configuration afin d’éviter l’analyse par Super-Linter, tout en maintenant un bon formatage dans le reste du projet.
 
-## 📄 Checklist
+## Checklist
 
 - [x] API REST conforme au format JSON attendu
 - [x] Base PostgreSQL pilotée via Docker
