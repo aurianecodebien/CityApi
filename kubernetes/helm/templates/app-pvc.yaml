@@ -2,6 +2,9 @@ apiVersion: v1
 kind: PersistentVolumeClaim
 metadata:
   name: city-api-pvc
+  labels:
+    app: city-api
+    environment: {{ .Values.app.env_name }}
 spec:
   accessModes:
     - ReadWriteOnce

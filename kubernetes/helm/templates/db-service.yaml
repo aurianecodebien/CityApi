@@ -2,9 +2,13 @@ apiVersion: v1
 kind: Service
 metadata:
   name: city-api-db
+  labels:
+    app: city-api-db
+    environment: {{ .Values.app.env_name }}
 spec:
   selector:
     app: city-api-db
+    environment: {{ .Values.app.env_name }}
   ports:
     - protocol: TCP
       port: {{ .Values.db.port }}
