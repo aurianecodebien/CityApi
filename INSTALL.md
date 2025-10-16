@@ -7,6 +7,30 @@ Ce guide décrit comment lancer l'application **CityAPI** avec :
 
 ---
 
+## Déploiement avec Argo-CD (environements éphémères automatiques)
+
+### 1. Initialiser un cluster Kubernetes
+https://docs.k3s.io/quick-start
+`curl -sfL https://get.k3s.io | sh -`
+
+
+### 2. Installer Argo-CD
+Via Kustomize:
+
+```yaml
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+
+namespace: cityapi
+resources:
+- https://raw.githubusercontent.com/argoproj/argo-cd/v2.7.2/manifests/install.yaml
+```
+
+### 3. Initialiser l'ApplicationSet
+
+`kubectl -n cityapi apply -f kubernetes/argo-cd.yaml`
+
+
 ## Installation avec Docker Compose
 
 ### 1. Prérequis
