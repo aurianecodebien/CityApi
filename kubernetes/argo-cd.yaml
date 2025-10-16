@@ -1,0 +1,30 @@
+apiVersion: argoproj.io/v1alpha1
+kind: ApplicationSet
+metadata:
+  name: cityapi
+  namespace: cityapi
+spec:
+  goTemplate: true
+  goTemplateOptions: ["missingkey=error"]
+  generators:
+    - pullRequest:
+        requeueAfterSeconds: 300
+        github:
+          owner: aurianecodebien
+          repo: CityApi
+  template:
+    metadata:
+      name: 'cityapi-pr-{{.number}}'
+    spec:
+      source:
+        repoURL: "https://github.com/aurianecodebien/CityApi.git"
+        targetRevision: "{{.head_sha}}"
+        path: kubernetes/helm
+        helm:
+          parameters:
+            - name: "image.tag"
+              value: "pr-{{.number}}"
+      project: default
+      destination:
+        server: https://kubernetes.default.svc
+        namespace: cityapi

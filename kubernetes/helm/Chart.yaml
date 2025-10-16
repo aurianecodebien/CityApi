@@ -1,0 +1,5 @@
+apiVersion: v2
+name: city-api
+description: An API for city data
+version: 0.1.0
+appVersion: "1.0"
