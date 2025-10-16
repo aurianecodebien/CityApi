@@ -17,6 +17,9 @@ spec:
   template:
     metadata:
       name: 'cityapi-pr-{{.number}}'
+      # Finalizer pour exécuter les hooks PreDelete avant suppression
+      finalizers:
+        - resources-finalizer.argocd.argoproj.io
     spec:
     #   syncPolicy:
     #     applicationsSync: sync
@@ -25,18 +28,22 @@ spec:
         targetRevision: "{{.head_sha}}"
         path: kubernetes/helm
         helm:
+          valueFiles:
+            - values-pr.yaml
           parameters:
+            - name: "prNumber"
+              value: "{{.number}}"
             - name: "app.tag"
               value: "pr-{{.number}}"
             - name: "app.env_name"
               value: "pr-{{.number}}"
             - name: "db.name"
-              value: "city_api_pr_{{.number}}"
+              value: "pr_{{.number}}"
             
       project: default
       destination:
         server: https://kubernetes.default.svc
-        namespace: cityapi
+        namespace: 'cityapi-pr-{{.number}}'  # Namespace dédié par PR
       syncPolicy:
         automated:
           prune: true

@@ -1,0 +1,47 @@
+# Exemple d'Application Argo CD pour une PR
+# Copier ce fichier et remplacer PR_NUMBER par le numéro réel
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: cityapi-pr-PR_NUMBER
+  namespace: argocd
+  labels:
+    app: cityapi
+    env: pr
+    pr-number: "PR_NUMBER"
+  # Finalizer pour s'assurer que les hooks PreDelete s'exécutent
+  finalizers:
+    - resources-finalizer.argocd.argoproj.io
+spec:
+  project: default
+  
+  source:
+    repoURL: https://github.com/aurianecodebien/CityApi
+    targetRevision: HEAD  # ou le nom de la branche PR
+    path: kubernetes/helm
+    helm:
+      valueFiles:
+        - values-pr.yaml
+      parameters:
+        - name: prNumber
+          value: "PR_NUMBER"
+        - name: app.tag
+          value: "pr-PR_NUMBER"
+  
+  destination:
+    server: https://kubernetes.default.svc
+    namespace: cityapi-pr-PR_NUMBER
+  
+  syncPolicy:
+    automated:
+      prune: true      # Supprime les ressources qui ne sont plus dans Git
+      selfHeal: true   # Corrige automatiquement les drifts
+    syncOptions:
+      - CreateNamespace=true
+    # Retry en cas d'échec
+    retry:
+      limit: 3
+      backoff:
+        duration: 5s
+        factor: 2
+        maxDuration: 3m

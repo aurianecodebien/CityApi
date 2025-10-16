@@ -1,0 +1,26 @@
+# Values pour environnements PR éphémères
+# Usage: helm install cityapi-pr-123 ./helm -f values-pr.yaml --set prNumber=123
+
+app:
+  image: ghcr.io/aurianecodebien/cityapi
+  tag: "pr-{{ .Values.prNumber }}"  # Tag sera remplacé par GitHub Actions
+  env_name: "pr-{{ .Values.prNumber }}"
+  port: 2022
+  nodePort: null  # Pas de NodePort pour les PR
+  addr: "0.0.0.0"
+
+db:
+  image: postgres
+  port: 5432
+  storage: 1Gi
+  # Database spécifique à la PR (sera créée par le hook)
+  name: "pr_{{ .Values.prNumber }}"
+  user: city_api
+  password: city_api
+  # Host pointe vers la DB de prod (même instance PostgreSQL)
+  host: city-api-prod-db
+  # Nom de la database de production (pour copier les données)
+  prodDbName: city_api
+
+# Numéro de PR (OBLIGATOIRE - sera défini par Argo CD ou GitHub Actions)
+prNumber: "REPLACE_ME"
