@@ -1,0 +1,46 @@
+apiVersion: argoproj.io/v1alpha1
+kind: ApplicationSet
+metadata:
+  name: cityapi
+  namespace: cityapi
+spec:
+  goTemplate: true
+#  goTemplateOptions: ["missingkey=error"]
+  # syncPolicy:
+  #   applicationsSync: sync
+  generators:
+    - pullRequest:
+        requeueAfterSeconds: 300
+        github:
+          owner: aurianecodebien
+          repo: CityApi
+  template:
+    metadata:
+      name: 'cityapi-pr-{{.number}}'
+    spec:
+    #   syncPolicy:
+    #     applicationsSync: sync
+      source:
+        repoURL: "https://github.com/aurianecodebien/CityApi.git"
+        targetRevision: "{{.head_sha}}"
+        path: kubernetes/helm
+        helm:
+          parameters:
+            - name: "app.tag"
+              value: "pr-{{.number}}"
+      project: default
+      destination:
+        server: https://kubernetes.default.svc
+        namespace: cityapi
+      syncPolicy:
+        automated:
+          prune: true
+          selfHeal: false
+        syncOptions:
+          - CreateNamespace=true
+        retry:
+          limit: 3
+          backoff:
+            duration: 5s
+            factor: 2
+            maxDuration: 3m
