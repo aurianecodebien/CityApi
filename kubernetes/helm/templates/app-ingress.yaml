@@ -6,6 +6,7 @@ metadata:
     app: city-api
     environment: {{ .Values.app.env_name }}
 spec:
+  ingressClassName: nginx
   rules:
     - host: {{ printf "city-api-%s.localhost" .Values.app.env_name}}
       http:

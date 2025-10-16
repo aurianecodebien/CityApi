@@ -19,10 +19,6 @@ https://docs.k3s.io/quick-start
 ```bash
 kubectl -n cityapi apply -k kubernetes
 ```
-
-### 3. Déployer ApplicationSet
-`kubectl -n cityapi apply -f kubernetes/base/argo-cd.yaml`
-
 Note: l'ApplicationSet lui-même n'est pas deployé par argo-cd pour éviter les effets de bords entre les différentes PR.
 
 
