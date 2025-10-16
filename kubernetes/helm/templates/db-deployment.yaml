@@ -1,16 +1,21 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: city-api-db
+  name: city-api-{{ .Values.app.env_name }}-db
+  labels:
+    app: city-api-db
+    environment: {{ .Values.app.env_name }}
 spec:
   replicas: 1
   selector:
     matchLabels:
       app: city-api-db
+      environment: {{ .Values.app.env_name }}
   template:
     metadata:
       labels:
         app: city-api-db
+        environment: {{ .Values.app.env_name }}
     spec:
       containers:
         - name: postgres

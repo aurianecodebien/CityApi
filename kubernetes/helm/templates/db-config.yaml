@@ -1,7 +1,10 @@
 apiVersion: v1
 kind: ConfigMap
 metadata:
-  name: city-api-init
+  name: city-api-{{ .Values.app.env_name }}-init
+  labels:
+    app: city-api
+    environment: {{ .Values.app.env_name }}
 data:
   init.sql: |
 {{ .Values.initSql | indent 4 }}
