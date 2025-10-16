@@ -12,26 +12,21 @@ spec:
     name: city-api-pg
   owner: city_api
 ---
-apiVersion: rbac.authorization.k8s.io/v1
-kind: Role
+apiVersion: v1
+kind: ConfigMap
 metadata:
-  name: cnpg-manager-role
-  namespace: cityapi
-rules:
-  - apiGroups: [""]
-    resources: ["secrets"]
-    verbs: ["get", "list", "watch"]
+  name: cnpg-controller-manager-config
+  namespace: cnpg-system
+data:
+  INHERITED_ANNOTATIONS: categories
+  INHERITED_LABELS: environment, workload, app
+  ENABLE_INSTANCE_MANAGER_INPLACE_UPDATES: 'true'
 ---
-apiVersion: rbac.authorization.k8s.io/v1
-kind: RoleBinding
+apiVersion: v1
+kind: Secret
 metadata:
-  name: cnpg-manager-rolebinding
-  namespace: cityapi
-subjects:
-  - kind: ServiceAccount
-    name: cnpg-manager
-    namespace: cityapi
-roleRef:
-  kind: Role
-  name: cnpg-manager-role
-  apiGroup: rbac.authorization.k8s.io
+  name: cnpg-controller-manager-config
+  namespace: cnpg-system
+type: Opaque
+data:
+  CNPG_PASSWORD: eW91ci1wYXNzd29yZA==
