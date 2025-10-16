@@ -10,7 +10,7 @@ db:
   clusterName: city-api-pg
   port: 5432
   storage: 1Gi
-  name: city_api-pg
+  name: city_api-prod-pg
   user: city_api
   password: city_api
   host: city-api-db

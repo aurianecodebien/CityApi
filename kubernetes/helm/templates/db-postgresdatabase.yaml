@@ -1,5 +1,5 @@
 apiVersion: postgresql.cnpg.io/v1
-kind: PostgresDatabase
+kind: Database
 metadata:
   name: {{ printf "city-api-%s-db" .Values.app.env_name }}
 spec:
@@ -8,4 +8,4 @@ spec:
   database:
     name: {{ required "db.name is required" .Values.db.name }}
     template:
-      name: city_api-pg
+      name: city_api-prod-pg
