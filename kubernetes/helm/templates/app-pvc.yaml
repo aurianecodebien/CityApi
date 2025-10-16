@@ -1,9 +1,9 @@
 apiVersion: v1
 kind: PersistentVolumeClaim
 metadata:
-  name: city-api-pvc
+  name: city-api-{{ .Values.app.env_name }}-pvc
   labels:
-    app: city-api
+    app: city-api-app
     environment: {{ .Values.app.env_name }}
 spec:
   accessModes:

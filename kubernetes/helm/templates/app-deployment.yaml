@@ -1,9 +1,9 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: city-api-app
+  name: city-api-{{ .Values.app.env_name }}-app
   labels:
-    app: city-api
+    app: city-api-app
     environment: {{ .Values.app.env_name }}
 spec:
   replicas: 1
