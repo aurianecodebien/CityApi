@@ -15,10 +15,13 @@ https://docs.k3s.io/quick-start
 
 `kubectl create namespace cityapi`
 
-### 2. Installer Argo-CD
+### 2. Installer Argo-CD et Cloudnative-pg
 ```bash
 kubectl -n cityapi apply -k kubernetes
+kubectl apply --server-side -f https://raw.githubusercontent.com/cloudnative-pg/cloudnative-pg/release-1.27/releases/cnpg-1.27.0.yaml
 ```
+
+Note: CLoudnative-pg ne peut pas être installé via kustomize car ses CRD sont trop longs.
 
 ### 3. Déployer ApplicationSet
 `kubectl -n cityapi apply -f kubernetes/base/argo-cd.yaml`
