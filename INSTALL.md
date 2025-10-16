@@ -17,7 +17,7 @@ https://docs.k3s.io/quick-start
 
 ### 2. Installer Argo-CD
 ```bash
-kubectl apply -n cityapi -f <(curl https://raw.githubusercontent.com/argoproj/argo-cd/refs/heads/master/manifests/ha/install.yaml)
+
 ```
 
 ### 3. Déployer ApplicationSet
