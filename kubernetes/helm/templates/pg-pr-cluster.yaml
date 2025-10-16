@@ -1,0 +1,23 @@
+{{- if hasPrefix "pr-" .Values.app.env_name }}
+apiVersion: postgresql.cnpg.io/v1
+kind: Cluster
+metadata:
+  name: city-api-{{ .Values.app.env_name }}-pg
+  namespace: {{ .Release.Namespace }}
+spec:
+  instances: 1
+  storage:
+    size: 2Gi
+  bootstrap:
+    recovery:
+      source: prod
+  externalClusters:
+    - name: prod
+      connectionParameters:
+        host: city-api-pg-rw.{{ .Release.Namespace }}.svc
+        user: postgres
+        sslmode: prefer
+      password:
+        name: cityapi-pg-repl
+        key: password
+{{- end }}

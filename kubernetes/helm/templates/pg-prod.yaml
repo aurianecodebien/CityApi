@@ -1,0 +1,11 @@
+apiVersion: postgresql.cnpg.io/v1
+kind: Cluster
+metadata:
+  name: city-api-pg
+  namespace: cityapi
+spec:
+  instances: 1
+  storage:
+    size: 5Gi
+  superuserSecret:
+    name: cityapi-pg-superuser
