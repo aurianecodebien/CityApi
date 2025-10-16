@@ -42,5 +42,7 @@ spec:
         - name: init-script
           configMap:
             name: city-api-init
+            optional: true
         - name: db-storage
           emptyDir: {}
+
