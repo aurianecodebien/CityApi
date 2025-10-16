@@ -6,6 +6,8 @@ metadata:
 spec:
   goTemplate: true
 #  goTemplateOptions: ["missingkey=error"]
+  syncPolicy:
+    applicationsSync: sync
   generators:
     - pullRequest:
         requeueAfterSeconds: 300
@@ -16,9 +18,6 @@ spec:
     metadata:
       name: 'cityapi-pr-{{.number}}'
     spec:
-      syncPolicy:
-        automated:
-          enabled: true
       source:
         repoURL: "https://github.com/aurianecodebien/CityApi.git"
         targetRevision: "{{.head_sha}}"
