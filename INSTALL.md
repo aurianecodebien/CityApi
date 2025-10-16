@@ -13,6 +13,7 @@ Ce guide décrit comment lancer l'application **CityAPI** avec :
 https://docs.k3s.io/quick-start
 `curl -sfL https://get.k3s.io | sh -`
 
+`kubectl create namespace cityapi`
 
 ### 2. Installer Argo-CD
 ```bash
