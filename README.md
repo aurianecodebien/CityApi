@@ -115,3 +115,5 @@ Nous avons exclu les fichiers Helm du linting automatique en adaptant la configu
 - [x] Pipelines CI/CD complètes avec lint, tests, build, push et sécurité
 - [x] Monitoring et déploiement K3s finalisé
 
+
+## Partie DO4
