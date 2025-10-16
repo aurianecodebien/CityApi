@@ -26,7 +26,7 @@ spec:
         path: kubernetes/helm
         helm:
           parameters:
-            - name: "image.tag"
+            - name: "app.tag"
               value: "pr-{{.number}}"
       project: default
       destination:
