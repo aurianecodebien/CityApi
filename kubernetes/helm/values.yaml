@@ -1,16 +1,17 @@
 app:
   image: ghcr.io/aurianecodebien/cityapi
+  env_name: "prod"
   tag: "latest"
   env_name: "prod"
   port: 2022
-  nodePort: 30022 # FIXME: Also support ClusterIP + Ingress
+  nodePort: 30022
   addr: "0.0.0.0"
 
 db:
-  image: postgres
+  clusterName: city-api-pg
   port: 5432
   storage: 1Gi
-  name: city_api
+  name: city_api-pg
   user: city_api
   password: city_api
   host: city-api-db

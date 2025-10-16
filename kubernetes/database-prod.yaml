@@ -1,0 +1,11 @@
+apiVersion: postgresql.cnpg.io/v1
+kind: PostgresDatabase
+metadata:
+  name: city-api-db-template
+spec:
+  cluster:
+    name: city-api-pg
+  database:
+    name: city_api_clone
+    template:
+      name: city_api
