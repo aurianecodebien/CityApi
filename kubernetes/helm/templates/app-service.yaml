@@ -6,7 +6,7 @@ metadata:
     app: city-api-app
     environment: {{ .Values.app.env_name }}
 spec:
-  type: NodePort
+  type: ClusterIP
   selector:
     app: city-api-app
     environment: {{ .Values.app.env_name }}
@@ -14,4 +14,3 @@ spec:
     - protocol: TCP
       port: {{ .Values.app.port }}
       targetPort: {{ .Values.app.port }}
-      nodePort: {{ required "app.nodePort is required" .Values.app.nodePort }}

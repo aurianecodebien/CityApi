@@ -29,10 +29,11 @@ spec:
           parameters:
             - name: "app.tag"
               value: "pr-{{.number}}"
-            - name: "db.name"
-              value: "city_api_pr_{{.number}}"
             - name: "app.env_name"
               value: "pr-{{.number}}"
+            - name: "db.name"
+              value: "city_api_pr_{{.number}}"
+            
       project: default
       destination:
         server: https://kubernetes.default.svc
