@@ -118,4 +118,3 @@ Nous avons exclu les fichiers Helm du linting automatique en adaptant la configu
 
 ## Partie DO4
 
-coucou
