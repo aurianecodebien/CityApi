@@ -14,7 +14,7 @@ spec:
     spec:
       containers:
         - name: city-api
-          image: {{ printf "%s:%s" .Values.app.image .Values.app.image.tag }}
+          image: {{ printf "%s:%s" .Values.app.image .Values.app.tag }}
           ports:
             - containerPort: {{ .Values.app.port }}
           env:
