@@ -1,0 +1,15 @@
+apiVersion: postgresql.cnpg.io/v1
+kind: Cluster
+metadata:
+  name: city-api-pg
+spec:
+  instances: 1
+  imageName: postgres:15
+  storage:
+    size: 1Gi
+  bootstrap:
+    initdb:
+      database: city_api
+      owner: city_api
+      secret:
+        name: city-api-pg-secret

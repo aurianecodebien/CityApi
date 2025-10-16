@@ -1,0 +1,11 @@
+apiVersion: postgresql.cnpg.io/v1
+kind: PostgresDatabase
+metadata:
+  name: {{ printf "city-api-%s-db" .Values.app.env_name }}
+spec:
+  cluster:
+    name: {{ .Values.db.clusterName | default "city-api-pg" }}
+  database:
+    name: {{ required "db.name is required" .Values.db.name }}
+    template:
+      name: city_api-pg

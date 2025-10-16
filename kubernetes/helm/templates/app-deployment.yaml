@@ -23,7 +23,7 @@ spec:
             - name: CITY_API_PORT
               value: {{ .Values.app.port | quote }}
             - name: CITY_API_DB_URL
-              value: {{ .Values.db.host }}
+              value: "postgresql://{{ .Values.db.user }}:{{ .Values.db.password }}@{{ .Values.db.host }}:{{ .Values.db.port }}/{{ .Values.db.name }}"
             - name: CITY_API_DB_USER
               value: {{ .Values.db.user }}
             - name: CITY_API_DB_PWD
