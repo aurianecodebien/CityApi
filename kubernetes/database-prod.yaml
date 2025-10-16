@@ -3,7 +3,8 @@ kind: Database
 metadata:
   name: city-api-prod-db
 spec:
+  databaseReclaimPolicy: retain
+  name: city_api-prod-pg
   cluster:
     name: city-api-pg
-  database:
-    name: city_api-prod-pg
+  owner: city_api

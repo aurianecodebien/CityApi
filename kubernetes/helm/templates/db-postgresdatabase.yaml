@@ -3,9 +3,10 @@ kind: Database
 metadata:
   name: {{ printf "city-api-%s-db" .Values.app.env_name }}
 spec:
+  databaseReclaimPolicy: delete
+  name: {{ required "db.name is required" .Values.db.name }}
   cluster:
     name: {{ .Values.db.clusterName | default "city-api-pg" }}
-  database:
-    name: {{ required "db.name is required" .Values.db.name }}
-    template:
-      name: city_api-prod-pg
+  template:
+    name: city_api-prod-pg
+  owner: city_api
