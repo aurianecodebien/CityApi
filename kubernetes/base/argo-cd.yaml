@@ -7,24 +7,23 @@ spec:
   goTemplate: true
   goTemplateOptions: ["missingkey=error"]
   generators:
-  - pullRequest:
-      # When using a Pull Request generator, the ApplicationSet controller polls every `requeueAfterSeconds` interval (defaulting to every 30 minutes) to detect changes.
-      requeueAfterSeconds: 300
-      github:
-        owner: aurianecodebien
-        repo: CityApi
+    - pullRequest:
+        requeueAfterSeconds: 300
+        github:
+          owner: aurianecodebien
+          repo: CityApi
   template:
     metadata:
-      name: 'cityapi-pr-{{replace .branch "/" "-" }}-{{.number}}'
+      name: 'cityapi-pr-{{.number}}'
     spec:
       source:
-        repoURL: 'https://github.com/aurianecodebien/CityApi.git'
-        targetRevision: '{{.head_sha}}'
-        path: kubernetes/
+        repoURL: "https://github.com/aurianecodebien/CityApi.git"
+        targetRevision: "{{.head_sha}}"
+        path: kubernetes/kusto
         helm:
           parameters:
             - name: "image.tag"
-              value: "pr-{{.author}}-{{.head_sha}}"
+              value: "pr-{{.number}}"
       project: default
       destination:
         server: https://kubernetes.default.svc
