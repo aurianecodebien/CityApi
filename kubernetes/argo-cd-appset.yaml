@@ -1,0 +1,54 @@
+# ApplicationSet Argo CD pour auto-créer les envs PR
+apiVersion: argoproj.io/v1alpha1
+kind: ApplicationSet
+metadata:
+  name: cityapi-pr-envs
+  namespace: argocd
+spec:
+  # Génère une Application pour chaque PR ouverte
+  generators:
+    - pullRequest:
+        github:
+          owner: aurianecodebien
+          repo: CityApi
+          tokenRef:
+            secretName: github-token
+            key: token
+          labels:
+            - preview  # Seulement les PR avec ce label
+        requeueAfterSeconds: 300  # Refresh toutes les 5min
+  
+  template:
+    metadata:
+      name: 'cityapi-pr-{{number}}'
+      labels:
+        app: cityapi
+        env: pr
+        pr-number: '{{number}}'
+    spec:
+      project: default
+      source:
+        repoURL: https://github.com/aurianecodebien/CityApi
+        targetRevision: '{{head_sha}}'
+        path: kubernetes/helm
+        helm:
+          valueFiles:
+            - values-pr.yaml
+          parameters:
+            - name: prNumber
+              value: '{{number}}'
+            - name: app.tag
+              value: 'pr-{{number}}'
+      destination:
+        server: https://kubernetes.default.svc
+        namespace: 'cityapi-pr-{{number}}'
+      syncPolicy:
+        automated:
+          prune: true
+          selfHeal: true
+        syncOptions:
+          - CreateNamespace=true
+      # Importante : supprime l'Application quand la PR est fermée
+      syncPolicy:
+        automated:
+          prune: true

@@ -1,0 +1,100 @@
+---
+# Job PreSync : Crée la DB de la PR et copie les données de prod
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: db-pr-init-{{ .Values.prNumber }}
+  namespace: {{ .Release.Namespace }}
+  annotations:
+    argocd.argoproj.io/hook: PreSync
+    argocd.argoproj.io/hook-delete-policy: HookSucceeded
+spec:
+  backoffLimit: 3
+  template:
+    metadata:
+      name: db-pr-init
+    spec:
+      restartPolicy: Never
+      containers:
+        - name: psql
+          image: postgres:16
+          env:
+            - name: PR_DB_NAME
+              value: "pr_{{ .Values.prNumber }}"
+            - name: PROD_DB_NAME
+              value: "{{ .Values.db.prodDbName | default "city_api" }}"
+            - name: PGHOST
+              value: "{{ .Values.db.host }}"
+            - name: PGPORT
+              value: "{{ .Values.db.port }}"
+            - name: PGUSER
+              value: "{{ .Values.db.user }}"
+            - name: PGPASSWORD
+              value: "{{ .Values.db.password }}"
+          command: ["/bin/bash", "-c"]
+          args:
+            - |
+              set -euo pipefail
+              
+              echo "🔍 Checking if database ${PR_DB_NAME} exists..."
+              
+              EXISTS=$(psql -d postgres -tAc "SELECT 1 FROM pg_database WHERE datname='${PR_DB_NAME}'" || echo "")
+              
+              if [ -z "$EXISTS" ]; then
+                echo "📦 Creating database ${PR_DB_NAME}..."
+                psql -d postgres -c "CREATE DATABASE ${PR_DB_NAME} OWNER ${PGUSER};"
+                
+                echo "📋 Copying data from ${PROD_DB_NAME} to ${PR_DB_NAME}..."
+                pg_dump -d "${PROD_DB_NAME}" --no-owner --no-acl | psql -d "${PR_DB_NAME}"
+                
+                echo "✅ Database ${PR_DB_NAME} created and populated with prod data"
+              else
+                echo "✅ Database ${PR_DB_NAME} already exists"
+              fi
+---
+# Job PreDelete : Supprime la DB de la PR
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: db-pr-cleanup-{{ .Values.prNumber }}
+  namespace: {{ .Release.Namespace }}
+  annotations:
+    argocd.argoproj.io/hook: PreDelete
+    argocd.argoproj.io/hook-delete-policy: BeforeHookCreation
+spec:
+  backoffLimit: 2
+  template:
+    metadata:
+      name: db-pr-cleanup
+    spec:
+      restartPolicy: Never
+      containers:
+        - name: psql
+          image: postgres:16
+          env:
+            - name: PR_DB_NAME
+              value: "pr_{{ .Values.prNumber }}"
+            - name: PGHOST
+              value: "{{ .Values.db.host }}"
+            - name: PGPORT
+              value: "{{ .Values.db.port }}"
+            - name: PGUSER
+              value: "{{ .Values.db.user }}"
+            - name: PGPASSWORD
+              value: "{{ .Values.db.password }}"
+          command: ["/bin/bash", "-c"]
+          args:
+            - |
+              set -euo pipefail
+              
+              echo "🗑️  Dropping database ${PR_DB_NAME}..."
+              
+              # Terminate active connections
+              psql -d postgres -c \
+                "SELECT pg_terminate_backend(pid) FROM pg_stat_activity WHERE datname='${PR_DB_NAME}' AND pid <> pg_backend_pid();" \
+                || true
+              
+              # Drop database
+              psql -d postgres -c "DROP DATABASE IF EXISTS ${PR_DB_NAME};"
+              
+              echo "✅ Database ${PR_DB_NAME} dropped"

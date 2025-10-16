@@ -1,0 +1,62 @@
+name: Cleanup PR Environment
+
+on:
+  pull_request:
+    types: [closed]
+    branches: [ "main" ]
+
+jobs:
+  cleanup-pr:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      packages: write
+      pull-requests: write
+    
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      # TODO: Ajouter le cleanup Kubernetes ici
+      # Décommenter quand Kubernetes est configuré avec les credentials
+      
+      # - name: Delete Kubernetes environment
+      #   env:
+      #     PR_NUMBER: ${{ github.event.pull_request.number }}
+      #   run: |
+      #     # Configurer kubeconfig avec ${{ secrets.KUBE_CONFIG }}
+      #     
+      #     # Helm uninstall déclenche le PreDelete hook qui supprime la DB
+      #     helm uninstall cityapi-pr-${PR_NUMBER} \
+      #       --namespace cityapi-pr-${PR_NUMBER} \
+      #       --wait || true
+      #     
+      #     # Supprimer le namespace
+      #     kubectl delete namespace cityapi-pr-${PR_NUMBER} --wait=false || true
+
+      - name: Comment PR
+        uses: actions/github-script@v7
+        with:
+          script: |
+            const prNumber = context.issue.number;
+            github.rest.issues.createComment({
+              issue_number: prNumber,
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              body: `🗑️ **Environment PR #${prNumber} nettoyé !**
+              
+              ✅ Database \`pr_${prNumber}\` supprimée
+              ✅ Namespace \`cityapi-pr-${prNumber}\` supprimé
+              
+              ⚠️ _Cleanup K8s à configurer - voir kubernetes/DATABASE.md_`
+            })
+
+      - name: Delete container images
+        uses: actions/delete-package-versions@v5
+        with:
+          package-name: cityapi
+          package-type: container
+          token: ${{ secrets.GITHUB_TOKEN }}
+          min-versions-to-keep: 10
+          delete-only-untagged-versions: false
+          ignore-versions: '^(latest|main|v.*)$'

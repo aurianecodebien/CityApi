@@ -13,7 +13,7 @@ db:
   name: city_api
   user: city_api
   password: city_api
-  host: city-api-db
+  host: city-api-prod-db  # Service de la DB prod
 
 initSql: |
   CREATE TABLE city (

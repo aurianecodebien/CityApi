@@ -27,9 +27,15 @@ spec:
               value: {{ .Values.app.addr }}
             - name: CITY_API_PORT
               value: {{ .Values.app.port | quote }}
-            - name: CITY_API_DB_URL
+            - name: CITY_API_DB_HOST
               value: {{ .Values.db.host }}
+            - name: CITY_API_DB_PORT
+              value: {{ .Values.db.port | quote }}
+            - name: CITY_API_DB_NAME
+              value: {{ .Values.db.name }}
             - name: CITY_API_DB_USER
               value: {{ .Values.db.user }}
             - name: CITY_API_DB_PWD
               value: {{ .Values.db.password }}
+            - name: CITY_API_DB_URL
+              value: {{ printf "postgresql://%s:%s@%s:%d/%s" .Values.db.user .Values.db.password .Values.db.host (.Values.db.port | int) .Values.db.name }}
