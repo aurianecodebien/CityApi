@@ -3,13 +3,16 @@ kind: Service
 metadata:
   name: city-api-{{ .Values.app.env_name }}-db
   labels:
-    app: city-api-db
+    app: city-api
+    component: db
     environment: {{ .Values.app.env_name }}
 spec:
   selector:
-    app: city-api-db
-    environment: {{ .Values.app.env_name }} 
+    app: city-api
+    component: db
+    environment: {{ .Values.app.env_name }}
   ports:
-    - protocol: TCP
+    - name: postgres
+      protocol: TCP
       port: {{ .Values.db.port }}
       targetPort: {{ .Values.db.port }}
