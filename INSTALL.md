@@ -17,7 +17,7 @@ https://docs.k3s.io/quick-start
 
 ### 2. Installer Argo-CD
 ```bash
-
+kubectl -n cityapi apply -k kubernetes
 ```
 
 ### 3. Déployer ApplicationSet
