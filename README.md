@@ -116,6 +116,4 @@ Nous avons exclu les fichiers Helm du linting automatique en adaptant la configu
 - [x] Monitoring et déploiement K3s finalisé
 
 
-## Partie DO4
-
-coucou
+## Partie DO
