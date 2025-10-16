@@ -20,8 +20,10 @@ https://docs.k3s.io/quick-start
 kubectl apply -n cityapi -f <(curl https://raw.githubusercontent.com/argoproj/argo-cd/refs/heads/master/manifests/ha/install.yaml)
 ```
 
-### 3. Initialiser l'ApplicationSet
+### 3. Déployer ApplicationSet
 `kubectl -n cityapi apply -f kubernetes/base/argo-cd.yaml`
+
+Note: l'ApplicationSet lui-même n'est pas deployé par argo-cd pour éviter les effets de bords entre les différentes PR.
 
 
 ## Installation avec Docker Compose
