@@ -11,7 +11,7 @@ spec:
       # When using a Pull Request generator, the ApplicationSet controller polls every `requeueAfterSeconds` interval (defaulting to every 30 minutes) to detect changes.
       requeueAfterSeconds: 300
       github:
-        owner: aurianecodebien/
+        owner: aurianecodebien
         repo: CityApi
   template:
     metadata:
