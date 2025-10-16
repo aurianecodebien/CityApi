@@ -9,6 +9,7 @@ spec:
   type: ClusterIP
   selector:
     app: city-api-app
+    environment: {{ .Values.app.env_name }}
   ports:
     - protocol: TCP
       port: {{ .Values.app.port }}

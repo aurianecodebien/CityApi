@@ -1,6 +1,7 @@
 app:
   image: ghcr.io/aurianecodebien/cityapi
   tag: "latest"
+  env_name: "prod"
   port: 2022
   nodePort: 30022 # FIXME: Also support ClusterIP + Ingress
   addr: "0.0.0.0"
