@@ -12,6 +12,30 @@ spec:
     name: city-api-pg
   owner: city_api
 ---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: Role
+metadata:
+  name: cnpg-manager-role
+  namespace: cityapi
+rules:
+  - apiGroups: [""]
+    resources: ["secrets", "configmaps", "pods", "services", "persistentvolumeclaims", "events"]
+    verbs: ["get", "list", "watch"]
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: RoleBinding
+metadata:
+  name: cnpg-manager-rolebinding
+  namespace: cityapi
+subjects:
+  - kind: ServiceAccount
+    name: cnpg-manager
+    namespace: cityapi
+roleRef:
+  kind: Role
+  name: cnpg-manager-role
+  apiGroup: rbac.authorization.k8s.io
+---
 apiVersion: v1
 kind: ConfigMap
 metadata:
@@ -30,3 +54,4 @@ metadata:
 type: Opaque
 data:
   CNPG_PASSWORD: eW91ci1wYXNzd29yZA==
+
