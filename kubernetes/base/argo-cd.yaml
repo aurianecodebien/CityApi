@@ -15,7 +15,7 @@ spec:
         repo: CityApi
   template:
     metadata:
-      name: 'myapp-{{.branch}}-{{.number}}'
+      name: 'cityapi-pr-{{replace .branch "/" "-" }}-{{.number}}'
     spec:
       source:
         repoURL: 'https://github.com/aurianecodebien/CityApi.git'
